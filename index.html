@@ -1,1 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>For You — A Little Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1020;
+    --ground:#0f1724;
+    --accent:#ff6b9a;
+    --card:#ffffff;
+    --glass: rgba(255,255,255,0.06);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: "Poppins", "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 10% 10%, #07203a 0%, var(--bg) 25%, #071220 60%), linear-gradient(180deg,#00142800, #001428 60%);
+    color:#fff;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:2rem;
+  }
 
+  /* Card */
+  .card{
+    width:100%;
+    max-width:980px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:20px;
+    padding:24px;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+    position:relative;
+    overflow:hidden;
+  }
+
+  header{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  .logo{
+    width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ff9ab8,#ff6b9a);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:22px;box-shadow:0 6px 20px rgba(255,107,154,0.18);
+  }
+  h1{margin:0;font-size:1.4rem;letter-spacing:0.2px}
+  p.lead{margin:0;color:rgba(255,255,255,0.75);font-size:0.95rem}
+
+  /* garden area */
+  .garden{
+    margin-top:18px;
+    height:420px;
+    border-radius:16px;
+    background:
+      radial-gradient(circle at 30% 10%, rgba(255,255,255,0.02), transparent 6%),
+      linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12)),
+      linear-gradient(180deg,#062034, #07203a 40%, #031022 100%);
+    position:relative;
+    overflow:hidden;
+    padding:18px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+
+  /* ground */
+  .ground {
+    position:absolute;
+    bottom:0;
+    left:0; right:0;
+    height:120px;
+    background: linear-gradient(180deg,#112a2e,#071b1f);
+    border-top-left-radius:40px;
+    border-top-right-radius:40px;
+    box-shadow: inset 0 6px 30px rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+    pointer-events:none;
+  }
+
+  /* flowers row */
+  .row{
+    display:flex;
+    gap:18px;
+    z-index:3;
+    transform:translateY(8px);
+  }
+
+  /* single flower */
+  .flower{
+    width:92px;height:120px;display:flex;flex-direction:column;align-items:center;gap:6px;
+  }
+  .stem{width:6px;height:60px;background:linear-gradient(180deg,#116442,#0b5536);border-radius:6px;position:relative;box-shadow:inset 0 2px 0 rgba(255,255,255,0.02)}
+  .leaf{
+    position:absolute;left:-8px;top:18px;width:20px;height:10px;border-radius:50%;background:linear-gradient(180deg,#1f8a56,#0b6540);transform:rotate(-25deg);
+    box-shadow:0 4px 10px rgba(2,6,12,0.4);
+  }
+  .bloom{
+    width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;position:relative;
+    background: radial-gradient(circle at 30% 30%, #fff6 0%, transparent 12%), linear-gradient(135deg,#ffd1e0,#ff7aa0);
+    box-shadow: 0 12px 28px rgba(255,107,154,0.14);
+    transform-origin:center bottom;
+    animation: sway 6s ease-in-out infinite;
+  }
+  .bloom .center{width:14px;height:14px;background:#ffecb8;border-radius:50%;box-shadow:0 5px 18px rgba(0,0,0,0.25)}
+
+  @keyframes sway {
+    0%{transform:translateY(0) rotate(-2deg)}
+    50%{transform:translateY(-6px) rotate(3deg)}
+    100%{transform:translateY(0) rotate(-2deg)}
+  }
+
+  /* floating petals / elements */
+  .petal{
+    width:20px;height:20px;background: linear-gradient(135deg,#ffbfd2,#ff7aa0);border-radius:50% 20% 50% 50%;
+    position:absolute;left:50%;top:30%;opacity:0.95; transform:translate(-50%,-50%) rotate(18deg);
+    filter:drop-shadow(0 6px 14px rgba(0,0,0,0.2));
+    animation:floatPetal linear infinite;
+  }
+  @keyframes floatPetal {
+    0%{transform:translate(-50%,-50%) translateY(0) rotate(0); opacity:1}
+    100%{transform:translate(-50%,-300px) translateX(-180px) rotate(720deg); opacity:0}
+  }
+
+  /* bouquet button */
+  .cta{
+    position:absolute;
+    right:22px;top:22px;
+    z-index:10;
+    background:linear-gradient(90deg,#ff6b9a,#ff9ab8);
+    border:none;padding:12px 16px;border-radius:12px;color:#fff;font-weight:600;cursor:pointer;
+    box-shadow:0 10px 30px rgba(255,107,154,0.14);
+    display:flex;gap:10px;align-items:center;font-size:0.95rem;
+  }
+  .cta:active{transform:translateY(1px)}
+
+  /* bouquet svg mini */
+  .mini-bq{width:20px;height:20px;display:inline-block}
+
+  /* modal */
+  .modal{
+    position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.98);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:22px;border-radius:16px;min-width:320px;max-width:560px;z-index:200;
+    box-shadow:0 30px 70px rgba(3,10,20,0.6);
+    opacity:0;pointer-events:none;transition:all 260ms ease;
+  }
+  .modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  .modal h2{margin:0 0 8px 0}
+  .modal .msg{background:var(--glass);padding:12px;border-radius:10px;margin-top:10px;color:#fff;line-height:1.35}
+  .modal .actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+  .btn{
+    border:none;padding:10px 12px;border-radius:10px;font-weight:600;cursor:pointer;
+  }
+  .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.06)}
+  .btn.primary{background:linear-gradient(90deg,#ff6b9a,#ff9ab8);color:#fff}
+
+  /* typing message */
+  .typing{
+    font-family: "Montserrat", sans-serif;
+    font-weight:600;
+    font-size:1.1rem;
+    letter-spacing:0.2px;
+    display:inline-block;
+  }
+  .cursor{display:inline-block;background:#fff;width:2px;height:1.1em;margin-left:6px;vertical-align:middle;animation:blink 0.9s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* footer note */
+  .note{position:absolute;left:22px;bottom:20px;z-index:10;color:rgba(255,255,255,0.65);font-size:0.9rem}
+
+  /* small screen adjustments */
+  @media (max-width:720px){
+    .garden{height:360px}
+    .card{padding:16px}
+    .cta{right:14px;top:14px;padding:10px 12px}
+  }
+</style>
+</head>
+<body>
+  <div class="card" role="main" aria-label="A garden surprise">
+    <header>
+      <div class="logo">B</div>
+      <div>
+        <h1>For You — a little garden</h1>
+        <p class="lead">I know you asked for time. No pressure — just a small surprise to brighten your day.</p>
+      </div>
+    </header>
+
+    <button class="cta" id="openBtn" title="Send bouquet">
+      <svg class="mini-bq" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2c0 3 3 4 3 6a3 3 0 1 1-3-6z" fill="#fff" opacity="0.9"/>
+        <path d="M6 4c0 2 2 3 2 4a2 2 0 1 1-2-4z" fill="#fff" opacity="0.9"/>
+        <path d="M8 16l4 6 4-6" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Send a bouquet
+    </button>
+
+    <div class="garden" id="garden">
+      <!-- floating petals (generated by JS) -->
+      <div class="row" aria-hidden="true">
+        <div class="flower">
+          <div class="bloom"><div class="center"></div></div>
+          <div class="stem"><div class="leaf"></div></div>
+        </div>
+        <div class="flower">
+          <div class="bloom" style="background:linear-gradient(135deg,#ffd6a6,#ff9f6b)"><div class="center"></div></div>
+          <div class="stem"><div class="leaf" style="left:auto;right:-8px;transform:rotate(24deg)"></div></div>
+        </div>
+        <div class="flower">
+          <div class="bloom" style="background:linear-gradient(135deg,#b8eaff,#6fb6ff)"><div class="center"></div></div>
+          <div class="stem"><div class="leaf"></div></div>
+        </div>
+        <div class="flower">
+          <div class="bloom" style="background:linear-gradient(135deg,#b2ffdf,#6bffd7)"><div class="center"></div></div>
+          <div class="stem"><div class="leaf" style="left:auto;right:-8px;transform:rotate(12deg)"></div></div>
+        </div>
+      </div>
+
+      <div class="ground"></div>
+    </div>
+
+    <div class="note">Tip: click <strong>Send a bouquet</strong> to open your message.</div>
+  </div>
+
+  <!-- modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+    <h2 id="modalTitle">A small bouquet</h2>
+    <div class="typing" id="typingLine"></div><span class="cursor" id="cursor"></span>
+
+    <div class="msg" id="messageBox" style="display:none;">
+      <!-- the sweet message will appear here -->
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" id="editBtn">Edit message</button>
+      <button class="btn primary" id="closeBtn">Close</button>
+    </div>
+  </div>
+
+<script>
+/* ====== CONFIGURE THESE TO PERSONALIZE ======
+   Change these values to the name and message you want to show.
+   If you want to let her edit, the "Edit message" button triggers a prompt.
+*/
+const SENDER = "— From: (your name)";
+let SWEET_MESSAGE = "I don't want to rush you. Just wanted you to know you make my world brighter. 🌸 Take all the time you need."
+
+/* Do not change below unless you want to tweak effects */
+const openBtn = document.getElementById('openBtn');
+const modal = document.getElementById('modal');
+const typingLine = document.getElementById('typingLine');
+const cursor = document.getElementById('cursor');
+const messageBox = document.getElementById('messageBox');
+const editBtn = document.getElementById('editBtn');
+const closeBtn = document.getElementById('closeBtn');
+const garden = document.getElementById('garden');
+
+// Floating petals generator
+function spawnPetal() {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  const startX = Math.random()*90 + 5;
+  p.style.left = startX + '%';
+  p.style.top = (Math.random()*40 + 10) + '%';
+  const dur = Math.random()*8 + 6;
+  p.style.animationDuration = dur + 's';
+  p.style.transform = 'translate(-50%,-50%) rotate(' + (Math.random()*360) + 'deg)';
+  garden.appendChild(p);
+  // cleanup
+  setTimeout(()=> p.remove(), (dur*1000)+200);
+}
+setInterval(spawnPetal, 1200);
+
+// Modal controls
+openBtn.addEventListener('click', () => {
+  showModal();
+});
+
+closeBtn.addEventListener('click', closeModal);
+editBtn.addEventListener('click', editMessage);
+
+function showModal(){
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
+  // show typing line first then reveal message
+  const firstLine = "This is for you...";
+  runTyping(firstLine, ()=> {
+    setTimeout(()=> {
+      messageBox.style.display = 'block';
+      messageBox.innerHTML = `<div style="white-space:pre-wrap;">${escapeHtml(SWEET_MESSAGE)}</div><div style="margin-top:10px;color:rgba(255,255,255,0.68);font-size:0.9rem">${SENDER}</div>`;
+    }, 300);
+  });
+}
+
+function closeModal(){
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
+  typingLine.textContent = '';
+  messageBox.style.display = 'none';
+}
+
+// typing effect (simple)
+function runTyping(text, cb){
+  typingLine.textContent = '';
+  let i=0;
+  const id = setInterval(()=> {
+    typingLine.textContent += text[i] || '';
+    i++;
+    if(i>text.length){
+      clearInterval(id);
+      if(cb) cb();
+    }
+  }, 45);
+}
+
+// simple edit flow
+function editMessage(){
+  const newMsg = prompt("Edit the message you'll send (keep it kind and respectful):", SWEET_MESSAGE);
+  if(newMsg !== null){
+    SWEET_MESSAGE = newMsg;
+    messageBox.innerHTML = `<div style="white-space:pre-wrap;">${escapeHtml(SWEET_MESSAGE)}</div><div style="margin-top:10px;color:rgba(255,255,255,0.68);font-size:0.9rem">${SENDER}</div>`;
+  }
+}
+
+// small helper to escape text to prevent accidental HTML injection
+function escapeHtml(unsafe) {
+  return unsafe.replace(/[&<"'>]/g, function(m) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m];
+  });
+}
+
+// small accessibility: close modal with Escape
+document.addEventListener('keydown', (e)=> {
+  if(e.key === 'Escape') closeModal();
+});
+
+// make the page link-share friendly by letting ?name= and ?msg= override defaults
+(function applyUrlOverrides(){
+  const params = new URLSearchParams(location.search);
+  if(params.has('name')) {
+    const name = params.get('name').slice(0,60);
+    if(name) document.title = `${name} — For You`;
+  }
+  if(params.has('msg')) {
+    try {
+      const raw = params.get('msg');
+      if(raw && raw.length<600) SWEET_MESSAGE = decodeURIComponent(raw);
+    } catch(e){}
+  }
+})();
+</script>
+</body>
+</html>
